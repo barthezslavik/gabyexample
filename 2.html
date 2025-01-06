@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Why Geometric Algebra?</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body class="row">
+    <script src="js/ganja.js"></script>
+    <script>
+      Algebra(3,0,1,()=>{
+
+        // Helper: Create a point.
+        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
+
+        // Helper: Create a plane from a,b,c,d.
+        // In 3D PGA, a plane can be represented by a*1e1 + b*1e2 + c*1e3 + d*1e0.
+        const plane = (a,b,c,d)=>a*1e1 + b*1e2 + c*1e3 + d*1e0;
+
+        // A point to reflect:
+        let P = point(1,0,0); // somewhere in x-direction
+
+        // A plane to reflect across (draggable normal).
+        let pl = plane(0,1,0,0); // a plane with normal in y-direction
+
+        document.body.appendChild(this.graph(()=>{
+
+          // Reflection across a plane 'pl' in PGA is: P' = pl * P * pl
+          // (the plane must be normalized; but let's skip that detail for simplicity).
+          let plNorm = pl.Normalized;
+          let reflectedP = plNorm*P*plNorm;
+
+          return [
+            "Reflection in 3D PGA",
+            0x008800, P,"Original P",
+            0x880000, reflectedP,"Reflected P",
+            0x0000FF, pl,"Plane",
+          ];
+        },{
+          grid        : true,
+          labels      : true,
+          h           : 0.45,
+          p           : -0.2,
+          lineWidth   : 2,
+          pointRadius : 2,
+          fontSize    : 1.2,
+          scale       : 1
+        }));
+      });
+    </script>
+    <div class="content container mt-3">
+      <div class="row">
+        <div class="col-md-12 content">
+          <h1>Why Geometric Algebra?</h1>
+          <p>
+            GA provides a unified way to handle reflections, rotations, and translations.
+            Here we demonstrate a reflection of a point across a plane using 3D PGA.
+            Drag the plane's normal vector to see how the reflection changes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

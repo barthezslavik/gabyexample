@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>GA Foundations and Notation</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body class="row">
+    <script src="js/ganja.js"></script>
+    <script>
+      Algebra(3,0,1,()=>{
+        // We can directly refer to basis elements inside this scope: e0, e1, e2, e3, etc.
+
+        // Let's define a few lines from the basis elements:
+        // For instance, e12, e13, e23 are lines through the origin in the dual sense.
+        let l12 = 1e12; // line in direction "12"
+        let l13 = 1e13; // line in direction "13"
+        let l23 = 1e23; // line in direction "23"
+
+        // Display them on a draggable 3D graph.
+        document.body.appendChild(this.graph(()=>{
+          return [
+            "Lines from the basis bivectors",
+            0xFF0000, l12, "Line e12",
+            0x00FF00, l13, "Line e13",
+            0x0000FF, l23, "Line e23",
+          ];
+        },{
+          grid        : true,
+          labels      : true,
+          h           : 0.4,
+          p           : -0.25,
+          lineWidth   : 2,
+          pointRadius : 2,
+          fontSize    : 1.1,
+          scale       : 1
+        }));
+      });
+    </script>
+    <div class="content container mt-3">
+      <div class="row">
+        <div class="col-md-12 content">
+          <h1>GA Foundations and Notation</h1>
+          <p>
+            In 3D Projective Geometric Algebra (PGA), we typically label basis elements as 
+            <code>e0, e1, e2, e3</code>. Points, lines, and planes are built from these.
+            Below is a simple demonstration of the basis elements combined into lines and points.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
