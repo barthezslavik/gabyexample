@@ -2,7 +2,6 @@
 <html lang="uk">
 <head>
   <meta charset="utf-8" />
-  <title>Що таке геометрична алгебра?</title>
   <link href="css/bootstrap.min.css" rel="stylesheet" />
   <link href="css/style.css" rel="stylesheet" />
 </head>
@@ -10,8 +9,6 @@
   <div class="container mt-3">
     <div class="row">
       <div class="col-md-12">
-        <h1>Що таке геометрична алгебра?</h1>
-        <p>Демонстрація з покроковим запуском</p>
         <button onclick="stepA()">Step A</button>
         <button onclick="stepB()">Step B</button>
         <button onclick="stepC()">Step C</button>
@@ -21,54 +18,104 @@
 
   <script src="js/ganja.js"></script>
   <script>
-    let A, B, C, graphContainer;
-    const configA = {
-      grid: true, labels: false, h: 0.6, p: -0.15,
-      lineWidth: 3, pointRadius: 1, fontSize: 1, scale: 1
+    let graphContainer;
+    graphContainer = document.createElement('div');
+    document.body.appendChild(graphContainer);
+
+    let A, B, C;
+    const config = {
+      grid        : true,
+      labels      : true,
+      h           : 0.6,
+      p           : -0.15,
+      lineWidth   : 3,
+      pointRadius : 1,
+      fontSize    : 1,
+      scale       : 1
     };
-    const configC = { ...configA, labels: true };
 
     function stepA() {
       Algebra(3, 0, 1, () => {
-        graphContainer = graphContainer || document.createElement('div');
-        if (!graphContainer.parentNode) document.body.appendChild(graphContainer);
+        // Допоміжна функція для створення точки в 3D PGA:
+        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
+
+        // Визначаємо три точки, які можна перетягувати.
+        let A = point(0, 0.8, 0);
+        let B = point(-0.8, -0.8, 0);
+        let C = point(0.8, -0.8, 0);
+
+        // Додаємо 3D PGA графік до тіла сторінки.
         graphContainer.innerHTML = "";
-        const emptyGraph = this.graph(() => [], configA);
-        graphContainer.appendChild(emptyGraph);
-        console.log("Algebra setup complete!");
+        graphContainer.appendChild(this.graph(()=>{
+
+          // Лінія між двома точками — це їх зовнішній добуток.
+          let lineAB = A & B;
+          let lineBC = B & C;
+          let lineCA = C & A;
+
+          return [
+            0x224488, A,"A", B,"B", C,"C",
+            0x268F00, lineAB, "A & B",
+            0x3E7FFE, lineBC, "B & C",
+            0xF62605, lineCA, "C & A",
+          ];
+        }, config));
       });
     }
 
     function stepB() {
       Algebra(3, 0, 1, () => {
-        const pt = (x, y, z) => !(1 + x * 1e1 + y * 1e2 + z * 1e3);
-        [A, B, C] = [pt(0, 0.8, 0), pt(-0.8, -0.8, 0), pt(0.8, -0.8, 0)];
-        console.log("Points A, B, C created!");
+        // Допоміжна функція для створення точки в 3D PGA:
+        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
 
-        // Draw points on the graph
-        const pointsGraph = this.graph(() => [
-          0x224488, A, "A", 
-          0x224488, B, "B", 
-          0x224488, C, "C"
-        ], configC);
+        // Визначаємо три точки, які можна перетягувати.
+        let A = point(0, 0.8, 0);
+        let B = point(-0.8, -0.8, 0);
+        let C = point(0.8, -0.8, 0);
+
         graphContainer.innerHTML = "";
-        graphContainer.appendChild(pointsGraph);
-        console.log("Points drawn on graph!");
+        graphContainer.appendChild(this.graph(()=>{
+
+          // Лінія між двома точками — це їх зовнішній добуток.
+          let lineAB = A & B;
+          let lineBC = B & C;
+          let lineCA = C & A;
+
+          return [
+            0x224488, A,"A", B,"B", C,"C",
+            0x268F00, lineAB, "A & B",
+            0x3E7FFE, lineBC, "B & C",
+            0xF62605, lineCA, "C & A",
+          ];
+        }, config));
       });
     }
 
     function stepC() {
       Algebra(3, 0, 1, () => {
-        const [lAB, lBC, lCA] = [A & B, B & C, C & A];
+        // Допоміжна функція для створення точки в 3D PGA:
+        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
+
+        // Визначаємо три точки, які можна перетягувати.
+        let A = point(0, 0.8, 0);
+        let B = point(-0.8, -0.8, 0);
+        let C = point(0.8, -0.8, 0);
+
         graphContainer.innerHTML = "";
-        const newGraph = this.graph(() => [
-          0x224488, A, "A", 0x224488, B, "B", 0x224488, C, "C",
-          0x268F00, lAB, "A & B",
-          0x3E7FFE, lBC, "B & C",
-          0xF62605, lCA, "C & A"
-        ], configC);
-        graphContainer.appendChild(newGraph);
-        console.log("Lines and scene rendered!");
+        graphContainer.appendChild(this.graph(()=>{
+
+          // Лінія між двома точками — це їх зовнішній добуток.
+          let lineAB = A & B;
+          let lineBC = B & C;
+          let lineCA = C & A;
+
+          return [
+            0x224488, A,"A", B,"B", C,"C",
+            0x268F00, lineAB, "A & B",
+            0x3E7FFE, lineBC, "B & C",
+            0xF62605, lineCA, "C & A",
+          ];
+        }, config));
       });
     }
   </script>
