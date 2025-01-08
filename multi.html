@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Що таке геометрична алгебра?</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Що таке геометрична алгебра?</h1>
+          <p>Демонстрація з покроковим запуском</p>
+          <!-- Buttons to click through steps -->
+          <button onclick="stepA()">Step A</button>
+          <button onclick="stepB()">Step B</button>
+          <button onclick="stepC()">Step C</button>
+        </div>
+      </div>
+    </div>
+    
+    <script src="js/ganja.js"></script>
+    <script>
+      let A, B, C, graphContainer;
+
+      // Step A: Setup the algebra and a container.
+      function stepA() {
+        Algebra(3,0,1, () => {
+          // We might store "this" or references somewhere
+          // but let's just create placeholders for now:
+          console.log("Algebra setup complete!");
+          // Optionally, attach an empty graph container now
+          graphContainer = document.createElement('div');
+          document.body.appendChild(graphContainer);
+        });
+      }
+
+      // Step B: Define Points
+      function stepB() {
+        Algebra(3,0,1, () => {
+          // Helper for a point in 3D PGA
+          const point = (x,y,z) => !(1e0 + x*1e1 + y*1e2 + z*1e3);
+          A = point(0, 0.8, 0);
+          B = point(-0.8, -0.8, 0);
+          C = point(0.8, -0.8, 0);
+          console.log("Points A, B, C created!");
+        });
+      }
+
+      // Step C: Create lines and attach graph
+      function stepC() {
+        Algebra(3,0,1, () => {
+          let lineAB = A & B;
+          let lineBC = B & C;
+          let lineCA = C & A;
+          
+          // Render in the same container we created in step A
+          graphContainer.appendChild(this.graph(() => {
+            return [
+              0x224488, A,"A", B,"B", C,"C",
+              0x268F00, lineAB, "A & B",
+              0x3E7FFE, lineBC, "B & C",
+              0xF62605, lineCA, "C & A",
+            ];
+          },{
+            grid        : true,
+            labels      : true,
+            h           : 0.6,
+            p           : -0.15,
+            lineWidth   : 3,
+            pointRadius : 1,
+            fontSize    : 1,
+            scale       : 1
+          }));
+          console.log("Lines and scene rendered!");
+        });
+      }
+    </script>
+  </body>
+</html>

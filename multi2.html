@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Що таке геометрична алгебра?</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container mt-3">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Що таке геометрична алгебра?</h1>
+          <p>Демонстрація з покроковим запуском</p>
+          <!-- Buttons to click through steps -->
+          <button onclick="stepA()">Step A</button>
+          <button onclick="stepB()">Step B</button>
+          <button onclick="stepC()">Step C</button>
+        </div>
+      </div>
+    </div>
+    
+    <script src="js/ganja.js"></script>
+    <script>
+      let ctx;            // To store the algebra context
+      let A, B, C;        // Global variables for points
+      let graphContainer; // Container for the canvas
+
+      // Step A: Initialize Algebra and render empty grid
+      function stepA() {
+        Algebra(3,0,1, function() {
+          ctx = this;  // Store the algebra context for later use
+          console.log("Algebra setup complete!");
+          
+          // Create and attach a container for the graph
+          graphContainer = document.createElement('div');
+          document.body.appendChild(graphContainer);
+          
+          // Render an empty scene with just the grid
+          graphContainer.appendChild(ctx.graph(() => {
+            return []; // No geometric objects yet
+          }, {
+            grid   : true,
+            labels : false, // No labels since there are no objects yet
+            h           : 0.6,
+            p           : -0.15,
+            lineWidth   : 3,
+            pointRadius : 1,
+            fontSize    : 1,
+            scale       : 1
+          }));
+        });
+      }
+      
+      // Step B: Define Points
+      function stepB() {
+        // Use the stored context to define points without reinitializing Algebra
+        const point = (x,y,z) => !(1e0 + x*1e1 + y*1e2 + z*1e3);
+        A = point(0, 0.8, 0);
+        B = point(-0.8, -0.8, 0);
+        C = point(0.8, -0.8, 0);
+        console.log("Points A, B, C created!");
+
+        // Optionally clear the previous canvas to update the scene
+        while (graphContainer.firstChild) {
+          graphContainer.removeChild(graphContainer.firstChild);
+        }
+
+        // Render the scene with grid, points, and lines using the stored context
+        graphContainer.appendChild(ctx.graph(() => {
+          return [
+            0x224488, A, "A",
+            0x224488, B, "B",
+            0x224488, C, "C",
+          ];
+        }, {
+          grid        : true,
+          labels      : true,
+          h           : 0.6,
+          p           : -0.15,
+          lineWidth   : 3,
+          pointRadius : 1,
+          fontSize    : 1,
+          scale       : 1
+        }));
+      }
+      
+      // Step C: Create lines, update scene with objects and grid
+      function stepC() {
+        // Compute lines using global points
+        let lineAB = A & B;
+        let lineBC = B & C;
+        let lineCA = C & A;
+        
+        // Optionally clear the previous canvas to update the scene
+        while (graphContainer.firstChild) {
+          graphContainer.removeChild(graphContainer.firstChild);
+        }
+        
+        // Render the scene with grid, points, and lines using the stored context
+        graphContainer.appendChild(ctx.graph(() => {
+          return [
+            0x224488, A, "A",
+            0x224488, B, "B",
+            0x224488, C, "C",
+            0x268F00, lineAB, "A & B",
+            0x3E7FFE, lineBC, "B & C",
+            0xF62605, lineCA, "C & A",
+          ];
+        }, {
+          grid        : true,
+          labels      : true,
+          h           : 0.6,
+          p           : -0.15,
+          lineWidth   : 3,
+          pointRadius : 1,
+          fontSize    : 1,
+          scale       : 1
+        }));
+        console.log("Lines and scene rendered!");
+      }
+    </script>
+  </body>
+</html>
