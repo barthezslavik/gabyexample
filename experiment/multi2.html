@@ -18,11 +18,11 @@
 
   <script src="js/ganja.js"></script>
   <script>
-    let graphContainer;
-    graphContainer = document.createElement('div');
+    // Create a global container to attach the canvas:
+    let graphContainer = document.createElement('div');
     document.body.appendChild(graphContainer);
 
-    let A, B, C;
+    // Our shared config, with draggable enabled:
     const config = {
       grid        : true,
       labels      : true,
@@ -31,91 +31,84 @@
       lineWidth   : 3,
       pointRadius : 1,
       fontSize    : 1,
-      scale       : 1
+      scale       : 1,
+      draggable   : true  // <-- important for many versions of ganja.js
     };
 
     function stepA() {
       Algebra(3, 0, 1, () => {
-        // Допоміжна функція для створення точки в 3D PGA:
-        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
+        // helper for 3D PGA points
+        const point = (x,y,z) => !(1e0 + x*1e1 + y*1e2 + z*1e3);
 
-        // Визначаємо три точки, які можна перетягувати.
-        let A = point(0, 0.8, 0);
+        // define 3 points
+        let A = point(0,    0.8, 0);
         let B = point(-0.8, -0.8, 0);
-        let C = point(0.8, -0.8, 0);
+        let C = point(0.8,  -0.8, 0);
 
-        // Додаємо 3D PGA графік до тіла сторінки.
-        graphContainer.innerHTML = "";
-        graphContainer.appendChild(this.graph(()=>{
-
-          // Лінія між двома точками — це їх зовнішній добуток.
+        // create the canvas inside the algebra callback
+        let g = this.graph(() => {
           let lineAB = A & B;
           let lineBC = B & C;
           let lineCA = C & A;
-
           return [
             0x224488, A,"A", B,"B", C,"C",
             0x268F00, lineAB, "A & B",
             0x3E7FFE, lineBC, "B & C",
             0xF62605, lineCA, "C & A",
           ];
-        }, config));
+        }, config);
+
+        // clear & attach
+        graphContainer.innerHTML = "";
+        graphContainer.appendChild(g);
       });
     }
 
     function stepB() {
       Algebra(3, 0, 1, () => {
-        // Допоміжна функція для створення точки в 3D PGA:
-        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
-
-        // Визначаємо три точки, які можна перетягувати.
-        let A = point(0, 0.8, 0);
+        const point = (x,y,z) => !(1e0 + x*1e1 + y*1e2 + z*1e3);
+        let A = point(0,    0.8, 0);
         let B = point(-0.8, -0.8, 0);
-        let C = point(0.8, -0.8, 0);
+        let C = point(0.8,  -0.8, 0);
 
-        graphContainer.innerHTML = "";
-        graphContainer.appendChild(this.graph(()=>{
-
-          // Лінія між двома точками — це їх зовнішній добуток.
+        let g = this.graph(() => {
           let lineAB = A & B;
           let lineBC = B & C;
           let lineCA = C & A;
-
           return [
             0x224488, A,"A", B,"B", C,"C",
             0x268F00, lineAB, "A & B",
             0x3E7FFE, lineBC, "B & C",
             0xF62605, lineCA, "C & A",
           ];
-        }, config));
+        }, config);
+
+        graphContainer.innerHTML = "";
+        graphContainer.appendChild(g);
       });
     }
 
     function stepC() {
       Algebra(3, 0, 1, () => {
-        // Допоміжна функція для створення точки в 3D PGA:
-        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
-
-        // Визначаємо три точки, які можна перетягувати.
-        let A = point(0, 0.8, 0);
+        const point = (x,y,z) => !(1e0 + x*1e1 + y*1e2 + z*1e3);
+        let A = point(0,    0.8, 0);
         let B = point(-0.8, -0.8, 0);
-        let C = point(0.8, -0.8, 0);
+        let C = point(0.8,  -0.8, 0);
 
-        graphContainer.innerHTML = "";
-        graphContainer.appendChild(this.graph(()=>{
-
-          // Лінія між двома точками — це їх зовнішній добуток.
+        let g = this.graph(() => {
           let lineAB = A & B;
           let lineBC = B & C;
           let lineCA = C & A;
-
           return [
             0x224488, A,"A", B,"B", C,"C",
             0x268F00, lineAB, "A & B",
             0x3E7FFE, lineBC, "B & C",
             0xF62605, lineCA, "C & A",
           ];
-        }, config));
+        }, config);
+
+        graphContainer.innerHTML = "";
+        graphContainer.appendChild(g);
       });
     }
   </script>
