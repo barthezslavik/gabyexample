@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    Algebra(0,0,1,()=>{
+      // Define the function.
+      var f = (x)=> 0.25*x*x*x*x - 0.5;
+
+      // Plot the function.
+      document.body.appendChild(this.graph((x)=>f(x+1e0)[0]));
+
+      // Plot its derivative.
+      document.body.appendChild(this.graph((x)=>f(x+1e0)[1]));
+    });
+  </script>
+</html>

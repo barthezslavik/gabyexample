@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    Algebra(0,0,1,()=>{
+      var f = (x)=> x*x*x + 2*x*x + x + 1;
+      var xs = [-2, -1, 0, 1, 2];
+      var values = xs.map(x => f(x+1e0));
+
+      var table = document.createElement('table');
+      table.border = 1;
+      table.innerHTML = `<tr><th>x</th><th>f(x)</th><th>f'(x)</th></tr>` +
+        values.map((p, i) => `<tr><td>${xs[i]}</td><td>${p[0]}</td><td>${p[1]}</td></tr>`).join('');
+      document.body.appendChild(table);
+    });
+  </script>
+</html>

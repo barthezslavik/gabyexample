@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    var basis = ['1','e1','e2'];
+    var Cayley = [
+      ['1','e1','e2'],
+      ['e1','e2','0'],
+      ['e2','0','0']
+    ];
+
+    Algebra({basis,Cayley}, ()=>{
+      // Define a polynomial function.
+      var f = (x)=> x*x*x*x - 3*x*x + 2*x;
+
+      // Plot the second derivative f'' (which is at index 2).
+      document.body.appendChild(this.graph((x)=>f(x+1e1)[2]));
+    });
+  </script>
+</html>
