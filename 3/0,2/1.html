@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    Algebra(0,2,()=>{
+      document.body.appendChild(this.graph((x,y)=>{
+        var n = 30;
+        // Initialize quaternion z with x, y components and zeros elsewhere.
+        var z = x*1e1 + y*1e2;
+        // Fixed quaternion parameter c.
+        var c = (0.3)*1e1 + (0.3)*1e2 + (0.3)*1e12;
+        
+        while(n-- && z.Length < 4) {
+          z = z**2 + c;
+        }
+        // Use iteration count for color.
+        return n/30;
+      }));
+    });
+  </script>
+</html>

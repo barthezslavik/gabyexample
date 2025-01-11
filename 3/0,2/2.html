@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    Algebra(0,2,()=>{
+      var axis = (1e12 + 1e23 - 1e13).Normalized;
+      // Angle of rotation as a function of point's angle in the XY plane.
+      document.body.appendChild(this.graph((x,y)=>{
+        var angle = Math.atan2(y,x);
+        var cos = Math.cos(angle/2);
+        var sin = Math.sin(angle/2);
+        // Create a rotor for rotation around the given axis.
+        var rot = cos + sin*axis;
+        // Create a pure quaternion for the original vector.
+        var vec = x*1e1 + y*1e2;
+        // Rotate the vector using sandwich product.
+        var rotated = rot * vec * rot.Conjugate;
+        // Return the vector part as color channels.
+        return rotated.slice(1,4);
+      }));
+    });
+  </script>
+</html>

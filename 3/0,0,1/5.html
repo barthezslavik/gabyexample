@@ -3,21 +3,21 @@
   <script src="../../js/ganja.js"></script>
   <body></body>
   <script>
-      Algebra(0,1,()=>{
-        var canvas = this.graph((x,y)=>{
-          var n = 50;
-          // Initialize z as complex number from (x,y).
-          var z = x + y*1e1;
-          // Define constant term: 0 + 0.5i.
-          var c = 0 + 0.5*1e1;
-          var iter = 0;
-          while(z < 2 && iter < n) {
-            z = z**2 + z + c;
-            iter++;
-          }
-          return iter/n;
-        });
-        document.body.appendChild(canvas);
+    Algebra(0,1,()=>{
+      var canvas = this.graph((x,y)=>{
+        var n = 50;
+        // Initialize z as complex number from (x,y).
+        var z = x + y*1e1;
+        // Define constant term: 0 + 0.5i.
+        var c = 0 + 0.5*1e1;
+        var iter = 0;
+        while(z < 2 && iter < n) {
+          z = z**2 + z + c;
+          iter++;
+        }
+        return iter/n;
       });
+      document.body.appendChild(canvas);
+    });
   </script>
 </html>

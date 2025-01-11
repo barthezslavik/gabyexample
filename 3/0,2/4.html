@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    Algebra(0,2,()=>{
+      var axis = (1e12 + 1e23 + 1e13).Normalized;
+      document.body.appendChild(this.graph((x,y)=>{
+        // Compute an angle from coordinates.
+        var theta = Math.atan2(y,x);
+        // Define a base color quaternion (e.g., red along e1).
+        var baseColor = 1e1;
+        // Create a rotor based on theta.
+        var rot = Math.cos(theta/2) + Math.sin(theta/2)*axis;
+        // Rotate the base color quaternion.
+        var rotatedColor = rot * baseColor * rot.Conjugate;
+        // Extract vector part as RGB components.
+        return rotatedColor.slice(1,4);
+      }));
+    });
+  </script>
+</html>

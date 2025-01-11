@@ -3,19 +3,19 @@
   <script src="../../js/ganja.js"></script>
   <body></body>
   <script>
-      Algebra(0,1,()=>{
-        var canvas = this.graph((x,y)=>{
-          // Compute z^3 manually: (x + yi)^3
-          var re = x*x*x - 3*x*y*y;
-          var im = 3*x*x*y - y*y*y;
-          // Calculate argument and magnitude of z^3.
-          var angle = Math.atan2(im, re);
-          var magnitude = Math.sqrt(re*re + im*im);
-          var hue = (angle + Math.PI) / (2*Math.PI);
-          var brightness = 1/(1 + magnitude);
-          return hue * brightness;
-        });
-        document.body.appendChild(canvas);
+    Algebra(0,1,()=>{
+      var canvas = this.graph((x,y)=>{
+        // Compute z^3 manually: (x + yi)^3
+        var re = x*x*x - 3*x*y*y;
+        var im = 3*x*x*y - y*y*y;
+        // Calculate argument and magnitude of z^3.
+        var angle = Math.atan2(im, re);
+        var magnitude = Math.sqrt(re*re + im*im);
+        var hue = (angle + Math.PI) / (2*Math.PI);
+        var brightness = 1/(1 + magnitude);
+        return hue * brightness;
       });
+      document.body.appendChild(canvas);
+    });
   </script>
 </html>
