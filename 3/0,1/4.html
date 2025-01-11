@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+      Algebra(0,1,()=>{
+        var canvas = this.graph((x,y)=>{
+          // Compute polar coordinates of z.
+          var r = Math.sqrt(Math.sqrt(x*x + y*y));
+          var theta = Math.atan2(y,x) / 2;
+          // Map angle to [0,1] range for hue.
+          var hue = (theta + Math.PI/2) / Math.PI;
+          // Use radius for brightness.
+          var brightness = 1/(1 + r);
+          return hue * brightness;
+        });
+        document.body.appendChild(canvas);
+      });
+  </script>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+      Algebra(0,1,()=>{
+        var canvas = this.graph((x,y)=>{
+          // Avoid division by zero at origin.
+          if(x===0 && y===0) return 0;
+          var denom = x*x + y*y;
+          var re = x/denom;
+          var im = -y/denom;
+          var angle = Math.atan2(im, re);
+          var magnitude = Math.sqrt(re*re + im*im);
+          var hue = (angle + Math.PI) / (2*Math.PI);
+          var brightness = 1/(1 + magnitude);
+          return hue * brightness;
+        });
+        document.body.appendChild(canvas);
+      });
+  </script>
+</html>

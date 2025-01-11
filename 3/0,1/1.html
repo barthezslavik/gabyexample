@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+    Algebra(0,1,()=>{
+      // Visualize a Julia Set fractal.
+      var canvas = this.graph((x,y)=>{
+        var n = 50;
+        // Initialize z as a complex number from the coordinates.
+        var z = x + y*1e1;
+        // Constant parameter for the Julia set.
+        var c = -0.7 + 0.27015*1e1;
+        while(z < 2 && n--) z = z**2 + c;
+        return (n/50);
+      });
+      document.body.appendChild(canvas);
+    });
+  </script>
+</html>

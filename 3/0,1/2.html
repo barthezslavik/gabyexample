@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <script src="../../js/ganja.js"></script>
+  <body></body>
+  <script>
+      Algebra(0,1,()=>{
+        var canvas = this.graph((x,y)=>{
+          var n = 100;
+          var re = x, im = y;
+          var iter = 0;
+          while((re*re + im*im) < 4 && iter < n) {
+            var absRe = Math.abs(re);
+            var absIm = Math.abs(im);
+            var newRe = absRe*absRe - absIm*absIm + x;
+            var newIm = 2*absRe*absIm + y;
+            re = newRe;
+            im = newIm;
+            iter++;
+          }
+          return iter/n;
+        });
+        document.body.appendChild(canvas);
+      });
+  </script>
+</html>
