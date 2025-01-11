@@ -11,75 +11,155 @@
   <body class="row">
     <script src="../js/ganja.js"></script>
     <script>
-      // Створюємо 3D PGA алгебру з сигнатурою (3,0,1).
-      Algebra(3,0,1,()=>{
-
-        // Допоміжна функція для створення точки в 3D PGA:
-        const point = (x,y,z)=>!(1e0 + x*1e1 + y*1e2 + z*1e3);
-
-        // Визначаємо три точки, які можна перетягувати.
-        let A = point(0, 0.8, 0);
-        let B = point(-0.8, -0.8, 0);
-        let C = point(0.8, -0.8, 0);
-
-        // Додаємо 3D PGA графік до тіла сторінки.
-        document.body.appendChild(this.graph(()=>{
-
-          // Лінія між двома точками — це їх зовнішній добуток.
-          let lineAB = A & B;
-          let lineBC = B & C;
-          let lineCA = C & A;
-
-          return [
-            0x224488, A,"A", B,"B", C,"C",
-            0x268F00, lineAB, "A & B",
-            0x3E7FFE, lineBC, "B & C",
-            0xF62605, lineCA, "C & A",
-          ];
-        },{
-          grid        : true,
-          labels      : true,
-          h           : 0.6,
-          p           : -0.15,
-          lineWidth   : 3,
-          pointRadius : 1,
-          fontSize    : 1,
-          scale       : 1
+      Algebra(2,0,1,()=>{
+        var line = (a,b,c)=>a*1e1 + b*1e2 + c*1e0;
+        var point = (x,y)=>!(1e0 + x*1e1 + y*1e2);  
+        var A = point(-1, -1), B = point(-1, 1), C = point(1, 1); 
+        
+        var L = line(1, 1, -0.5)
+        var M = ()=>C & A;
+        var D = ()=>L ^ M;
+        
+        document.body.appendChild(this.graph([
+          0xD0FFE1,       // Numbers are colors - use hex!
+          [A,B,C],        // render polygon ABC.
+          0x882288,       // Set the color to purple.
+          [B,C],          // Render line segment from B to C. 
+          0x00AA88,       // Medium green.
+          L, "L", M, "M", // Render and label lines.
+          0x224488,       // Set color blue.
+          D, "D",         // Intersection point of L and M
+          0x008844,       // Set darker green
+          A, "A",         // Render point A and label it.
+          B, "B",         // Render point B and label it.
+          C, "C",         // Render point C and label it.
+        ],{
+          grid        : true, // Display a grid
+          labels      : true, // Label the grid
+          lineWidth   : 3,    // Custom lineWidth (default=1)
+          pointRadius : 1,    // Custon point radius (default=1)
+          fontSize    : 1,    // Custom font size (default=1)
+          scale       : 1,    // Custom scale (default=1), mousewheel.
         }));
+        
       });
     </script>
     <div class="content container mt-3">
       <div class="row">
         <div class="col-md-12 content">
-          <h1>Що таке геометрична алгебра?</h1>
+          <!-- Початок пояснення обчислень точки D -->
+          <p>Починаємо з відомих визначень:</p>
           <p>
-            Геометрична алгебра (ГА) — це потужна математична система, яка узагальнює
-            комплексні числа, кватерніони та лінійну алгебру для об'єднання перетворень та
-            геометрії. Нижче наведено швидку візуальну демонстрацію з використанням 3D проектної ГА (PGA).
-            Ви можете перетягувати точки та бачити, як оновлюються лінії/площини.
+            \[
+            \begin{aligned}
+            L &= e_1 + e_2 - 0.5\,e_0,\\
+            M &= C \,\&\, A,
+            \end{aligned}
+            \]
+          </p>
+          <p>
+            де \(C \,\&\, A\) означає з'єднання точок \(C\) та \(A\). З гомогенних координат точок \(A=(-1,-1)\) та \(C=(1,1)\) можна вивести пряму через \(A\) та \(C\), використовуючи векторний добуток:
           </p>
           <p>
             \[
-              e_i e_j + e_j e_i = 2g_{ij}
+            A_h = (-1,-1,1), \quad C_h = (1,1,1).
             \]
-            \[
-              e_i e_j + e_j e_i = 2\delta_{ij}, \quad \text{and} \quad e_i^2 = 1.
-            \]
-            <a href="1.html" style="color: gray;">
-              \[
-                \{ \gamma^\mu, \gamma^\nu \} = \gamma^\mu \gamma^\nu + \gamma^\nu \gamma^\mu = 2\eta^{\mu\nu}
-              \]
-            </a>
           </p>
           <p>
-            <a href="1.html">
-              \[
-                ab = a \cdot b + a \wedge b
-              \]
-            </a>
+            Гомогенні коефіцієнти прямої обчислюються як
+            \[
+            \ell_{CA} = A_h \times C_h 
+            = \begin{vmatrix} 
+            \mathbf{i} & \mathbf{j} & \mathbf{k} \\ 
+            -1 & -1 & 1 \\ 
+            1 & 1 & 1 
+            \end{vmatrix} 
+            = (-2,\,2,\,0).
+            \]
           </p>
+          <p>
+            До масштабування це відповідає прямій
+            \[
+            M = e_1 - e_2.
+            \]
+          </p>
+          <p>
+            Далі обчислимо зовнішній добуток прямих \(L\) та \(M\), щоб знайти їх точку перетину \(D\):
+            \[
+            D = L \wedge M.
+            \]
+          </p>
+          <p>
+            Підставляємо \(L\) та \(M\):
+            \[
+            \begin{aligned}
+            L \wedge M 
+            &= \Big(e_1 + e_2 - 0.5\,e_0\Big) \wedge \Big(e_1 - e_2\Big)\\
+            &= e_1\wedge e_1 - e_1\wedge e_2 + e_2\wedge e_1 - e_2\wedge e_2 
+                - 0.5\,e_0\wedge e_1 + 0.5\,e_0\wedge e_2.
+            \end{aligned}
+            \]
+          </p>
+          <p>
+            Використовуючи антисиметрію \(e_i \wedge e_i = 0\) та \(e_2\wedge e_1 = -e_1\wedge e_2\), спрощуємо:
+            \[
+            \begin{aligned}
+            L \wedge M 
+            &= - e_1\wedge e_2 - e_1\wedge e_2 
+                - 0.5\,e_0\wedge e_1 + 0.5\,e_0\wedge e_2\\
+            &= -2\,e_1\wedge e_2 - 0.5\,e_0\wedge e_1 + 0.5\,e_0\wedge e_2.
+            \end{aligned}
+            \]
+          </p>
+          <p>
+            Точка \(P(x,y)\) в цій алгебрі представляється як
+            \[
+            P(x,y) = \;!\big(e_0 + x\,e_1 + y\,e_2\big)
+            = e_1\wedge e_2 - x\,e_0\wedge e_2 + y\,e_0\wedge e_1,
+            \]
+            з точністю до скалярного множника.
+          </p>
+          <p>
+            Ми хочемо виразити \(D\) у цій формі. Порівнюємо
+            \[
+            \begin{aligned}
+            ! \big(e_0 + x\,e_1 + y\,e_2\big) 
+            &= e_1\wedge e_2 - x\,e_0\wedge e_2 + y\,e_0\wedge e_1,\\
+            \lambda\cdot! \big(e_0 + x\,e_1 + y\,e_2\big) 
+            &= \lambda\,e_1\wedge e_2 - \lambda x\,e_0\wedge e_2 + \lambda y\,e_0\wedge e_1
+            \end{aligned}
+            \]
+            з нашим обчисленим \(D\):
+            \[
+            D = -2\,e_1\wedge e_2 - 0.5\,e_0\wedge e_1 + 0.5\,e_0\wedge e_2.
+            \]
+          </p>
+          <p>
+            Збігаємо коефіцієнти з
+            \[
+            \lambda\,e_1\wedge e_2 + \lambda y\,e_0\wedge e_1 - \lambda x\,e_0\wedge e_2:
+            \]
+            \[
+            \begin{aligned}
+            \lambda &= -2,\\
+            \lambda\,y &= -0.5\;\Rightarrow\; y = \frac{-0.5}{\lambda} = \frac{-0.5}{-2} = 0.25,\\
+            -\lambda\,x &= 0.5\;\Rightarrow\; x = \frac{-0.5}{\lambda} = \frac{-0.5}{-2} = 0.25.
+            \end{aligned}
+            \]
+          </p>
+          <p>
+            Отже, 
+            \[
+            D = \;!\Big(e_0 + 0.25\,e_1 + 0.25\,e_2\Big),
+            \]
+            що відповідає евклідовій точці з координатами 
+            \[
+            (0.25,\;0.25).
+            \]
+          </p>
+          <!-- Кінець пояснення обчислень точки D -->
         </div>
       </div>
-    </div>
+    </div>    
   </body>
 </html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Geometric Algebra - Inner Product (Euclidean 3D)</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <h1>Interactive Visualization: Inner Product (Euclidean 3D)</h1>
+  <p>
+    This example shows two vectors \(A\) and \(B\) in 3D, and computes their dot product.
+    Try changing their coordinates to see how the projection changes.
+  </p>
+  <script src="../js/ganja.js"></script>
+  <script>
+    // Create a 3D Euclidean Geometric Algebra.
+    // Algebra(3) is shorthand for Algebra(3,0).
+    Algebra(3, () => {
+
+      // Define a helper for 3D vectors in Euclidean GA.
+      const vector = (x, y, z) => x * 1e1 + y * 1e2 + z * 1e3;
+
+      // Example vectors A and B.
+      let A = vector(1, 1, 0);
+      let B = vector(2, 0, 0);
+
+      // Compute dot (inner) product. This is just a scalar in 3D.
+      let dotAB = A | B;
+
+      // Optionally, compute the projection of A onto B (as a vector),
+      // so that we can visualize it:
+      //
+      //     proj_B(A) = (A | B / B | B) B
+      //
+      // Make sure B is not the zero vector!
+      let projAonB = (dotAB / (B | B)) * B;
+
+      // Print results to console (for debugging).
+      console.log("A =", A.toString());
+      console.log("B =", B.toString());
+      console.log("A | B =", dotAB.toString());       // scalar
+      console.log("Projection of A on B =", projAonB.toString());
+
+      // Now append a ganja.js graph to visualize:
+      document.body.appendChild(
+        this.graph(
+          () => [
+            0x00ff00, A, "A",       // green
+            0xff0000, B, "B",       // red
+            0x0000ff, projAonB, "proj A on B" // blue
+          ],
+          {
+            grid: true,
+            labels: true,
+            scale: 1
+          }
+        )
+      );
+    });
+  </script>
+</body>
+</html>
